@@ -1,0 +1,15 @@
+{
+    "name": "williamsonwuesi/onepasswordpassage",
+    "description": "This is a package to automatically enforce 1passowrd_passage authentication in a laravel backend",
+    "autoload": {
+        "psr-4": {
+            "Williamsonwuesi\\Onepasswordpassage\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Onwuesi Williams Chukwuemeka"
+        }
+    ],
+    "require": {}
+}
