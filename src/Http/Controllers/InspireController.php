@@ -1,11 +1,11 @@
 <?php
 
-namespace Williamsonwuesi\Onepasswordpassage\Controllers;
+namespace Williamsonwuesi\Onepasswordpassage\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Williamsonwuesi\Onepasswordpassage\Authenticate;
 
-class OnepasswordauthController{
+class OnepasswordinspireController{
 
     public function __invoke(Authenticate $authenticate) {
 
@@ -16,5 +16,5 @@ class OnepasswordauthController{
         return view('Onepasswordpassage::index', compact('message'));
 
     }
-
+    
 }

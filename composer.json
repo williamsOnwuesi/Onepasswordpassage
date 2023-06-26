@@ -11,5 +11,7 @@
             "name": "Onwuesi Williams Chukwuemeka"
         }
     ],
-    "require": {}
+    "require": {
+        "lcobucci/jwt": "*"
+    }
 }
