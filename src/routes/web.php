@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['web']], function () {
     
-    Route::get('inspire', OnepasswordinspireController::class);
+    Route::get('inspire', OnepasswordinspireController::class)->middleware('auth');
 
     Route::get('passwordless_login', [OnepasswordauthController::class, 'passage_login'])->name('passwordless_login');
 
