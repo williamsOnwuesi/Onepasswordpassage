@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Models\User;
 
-// use Illuminate\Database\QueryException;
+use Illuminate\Database\QueryException;
 
 use Lcobucci\JWT\Encoding\CannotDecodeContent;
 use Lcobucci\JWT\Encoding\JoseEncoder;
