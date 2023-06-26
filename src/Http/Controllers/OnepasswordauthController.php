@@ -3,7 +3,7 @@
 namespace Williamsonwuesi\Onepasswordpassage\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Williamsonwuesi\Onepasswordpassage\Authenticate;
+
 
 class OnepasswordauthController{
 
@@ -13,6 +13,11 @@ class OnepasswordauthController{
 
     }
 
+    public function passage_login (Request $request) {
+        
+        return view('Onepasswordpassage::passage_login');
+
+    }
 
     // public function AddPassagePasskeysFromProfile (Request $request) {
 

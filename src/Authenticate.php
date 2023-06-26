@@ -4,9 +4,11 @@ namespace Williamsonwuesi\Onepasswordpassage;
 
 
 class Authenticate {
+
     public function login(){
 
-        return "Your Package function is working properly.";
+        return "You are getting to the highest level. Explore your greatest potential.";
 
     }
+    
 }
