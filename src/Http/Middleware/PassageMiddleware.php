@@ -77,7 +77,7 @@ class PassageMiddleware
         /* ----------------------------------------------------------------------------------------- */
         try{
 
-            $app_id='7zJ6TzT1dKwmlXSeyIcfhxlf';
+            $app_id = env('PASSAGE_APP_ID');
 
             $url = "https://auth.passage.id/v1/apps/$app_id/currentuser/";
 

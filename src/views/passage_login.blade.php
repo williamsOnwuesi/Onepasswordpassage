@@ -10,6 +10,6 @@
 
 </head>
 <body>
-    <passage-auth app-id="7zJ6TzT1dKwmlXSeyIcfhxlf"></passage-auth>
+    <passage-auth app-id="{{ env('PASSAGE_APP_ID') }}"></passage-auth>
 </body>
 </html>
