@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class OnepasswordauthController{
 
-    public function AuthenticateUser (Request $request, $token) {
+    public function AuthenticateUser (Request $request) {
         
         return redirect('/profile');
 

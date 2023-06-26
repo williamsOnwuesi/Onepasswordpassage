@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Models\User;
 
+// use Illuminate\Database\QueryException;
+
 use Lcobucci\JWT\Encoding\CannotDecodeContent;
 use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Token\InvalidTokenStructure;
@@ -58,13 +60,14 @@ class PassageMiddleware
 
         // **Notes**
         // $user = User::find($primary_key);
-        // $user = User::where('input_value', 'database_value')->get();
+        // $user_primary_key = User::where('psg_auth_token_sub', $passage_auth_token)->get(['id']);
+        // $user_primary_key = User::where('psg_auth_token_sub', $passage_auth_token)->get(['id']);
         // **EndNotes**
-
 
         /* -------------------------------------- */
         /* Attempt to Login Passage JWT sub claim */
         /* -------------------------------------- */
+
         if (Auth::loginUsingId($passage_auth_token)){
             
             $request->session()->regenerate();
@@ -104,21 +107,22 @@ class PassageMiddleware
 
             $php_user_data = json_decode($user_data, true);
 
+            
             $passage_user_email = $php_user_data["user"]["email"];
 
             $new_user = User::create([
                 'name' => '',
                 'email' => $passage_user_email,
                 'password' => '',
-                'psg_auth_token_sub' => $passage_auth_token,
+                'psg_auth_token_sub' => $passage_auth_token
             ]);
 
-        }catch(Illuminate\Database\QueryException $e) {
+        }catch(\Illuminate\Database\QueryException $e) {
 
             /* ---------------------------------------------------------------------------------------------------------------------------- */
             /* Redirect to Login page and prompt Client to Login and Enable Passage Passkey from Profile as identifier(Email) already exists*/
             /* ---------------------------------------------------------------------------------------------------------------------------- */
-            return $e;
+            return redirect('/login');
 
             // return redirect('/login')
             // ->withErrors(
@@ -131,8 +135,15 @@ class PassageMiddleware
         /* -------------------------------------------------------------------------------------------------- */
         /* If User is successfully created, Login the newly created User and proceed with the current request */
         /* -------------------------------------------------------------------------------------------------- */
-        Auth::login($new_user);
+        if(Auth::loginUsingId($passage_auth_token)) {
 
-        return $next($request);
+            $request->session()->regenerate();
+
+            return $next($request);
+    
+        }
+
+        return redirect('/login');
+
     }
 }
