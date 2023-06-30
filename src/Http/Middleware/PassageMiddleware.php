@@ -58,17 +58,13 @@ class PassageMiddleware
         /* ---------------------------------------------- */
         $passage_auth_token = $token->claims()->get('sub');
 
-        // **Notes**
-        // $user = User::find($primary_key);
-        // $user_primary_key = User::where('psg_auth_token_sub', $passage_auth_token)->get(['id']);
-        // $user_primary_key = User::where('psg_auth_token_sub', $passage_auth_token)->get(['id']);
-        // **EndNotes**
+        $user_key = User::where('psg_auth_token_sub', $passage_auth_token)->value('id');
+
 
         /* -------------------------------------- */
         /* Attempt to Login Passage JWT sub claim */
         /* -------------------------------------- */
-
-        if (Auth::loginUsingId($passage_auth_token)){
+        if (Auth::loginUsingId($user_key)){
             
             $request->session()->regenerate();
 
@@ -117,12 +113,24 @@ class PassageMiddleware
                 'psg_auth_token_sub' => $passage_auth_token
             ]);
 
-        }catch(\Illuminate\Database\QueryException $e) {
+            Auth::login($new_user);
+
+        }catch(QueryException $e) {
+
+            User::where('email', $passage_user_email)
+            ->update([
+                'psg_auth_token_sub' => $passage_auth_token, 
+            ]);
+
+            $user_id = User::where('email', $passage_user_email)->value('id');
+
+            Auth::loginUsingId($user_id);
+
+            $request->session()->regenerate();
 
             /* ---------------------------------------------------------------------------------------------------------------------------- */
             /* Redirect to Login page and prompt Client to Login and Enable Passage Passkey from Profile as identifier(Email) already exists*/
             /* ---------------------------------------------------------------------------------------------------------------------------- */
-            return redirect('/login');
 
             // return redirect('/login')
             // ->withErrors(
@@ -132,18 +140,11 @@ class PassageMiddleware
 
         }
 
-        /* -------------------------------------------------------------------------------------------------- */
-        /* If User is successfully created, Login the newly created User and proceed with the current request */
-        /* -------------------------------------------------------------------------------------------------- */
-        if(Auth::loginUsingId($passage_auth_token)) {
+        /* ------------------------------------------------------------------------------- */
+        /* If User is successfully created and Logged in, proceed with the current request */
+        /* ------------------------------------------------------------------------------- */
 
-            $request->session()->regenerate();
-
-            return $next($request);
-    
-        }
-
-        return redirect('/login');
+        return $next($request);
 
     }
 }

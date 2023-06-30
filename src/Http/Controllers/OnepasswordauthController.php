@@ -3,13 +3,14 @@
 namespace Williamsonwuesi\Onepasswordpassage\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 
 class OnepasswordauthController{
 
     public function AuthenticateUser (Request $request) {
         
-        return redirect('/profile');
+        return redirect('/dashboard');
 
     }
 
@@ -19,10 +20,10 @@ class OnepasswordauthController{
 
     }
 
-    // public function AddPassagePasskeysFromProfile (Request $request) {
+    public function AddPassagePasskeysFromProfile (Request $request) {
 
-    //   return view('enable_passkeys');
+      return view('Onepasswordpassage::enable_passkeys');
 
-    // }
+    }
 
 }
